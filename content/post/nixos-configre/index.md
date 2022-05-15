@@ -6,7 +6,7 @@ description = "my nixos configuration analysis"
 
 ## Why NixOS
 
-Before NixOS, I use ArchLinux user. Nix, pure by design.
+Nix, pure by design.
 The advantages are not explained. This article more like a tutorial.
 
 ## Configuration analysis
