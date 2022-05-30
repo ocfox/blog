@@ -11,3 +11,4 @@ these logs like diaries that record my life and work.
 
 - [2022-05-13](./2022-05-13)
 - [2022-05-14](./2022-05-14)
+- [2022-05-30](./2022-05-30)
