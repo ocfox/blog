@@ -1,5 +1,5 @@
 # The URL the site will be built for
-base_url = "https://blog.ocfox.me"
+base_url = "https://ocfox.me"
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
