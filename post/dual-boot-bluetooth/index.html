@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <title>Bluetooth Pairing on Dual Boot - ocfox</title>
+    
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"><meta name="description" content="write down ocfox needs to remember. Bluetooth Pairing on Dual Boot Edit pairing keys on Windows and Linux, make they are consistent"/>
+    <meta property="og:title" content="ocfox&#x27;s tree hole -&nbsp;Bluetooth Pairing on Dual Boot" />
+    <meta property="og:type" content="website"/><meta property="og:url" content="https:&#x2F;&#x2F;ocfox.me&#x2F;post&#x2F;dual-boot-bluetooth&#x2F;"/><meta property="og:description" content="Edit pairing keys on Windows and Linux, make they are consistent"/>
+    <link rel="preload" href="https://ocfox.me/assets/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://ocfox.me/assets/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://ocfox.me/style.css?h=2c8d17b7aa9535c98dc3b725d1bc9c6b2e12b81df07df95e5d9af6dcb88e7c78">
+    <link rel="stylesheet" href=" https://ocfox.me/color/orange.css?h=aee32970acd19d5cf88d42505796de4e31aa73fc58a07e61aa2f57fae305de50">
+    
+<link rel="shortcut icon" href="https://ocfox.me/favicon.ico" type="image/x-icon" /></head>
+    <body>
+        <div class="container center">
+<header class="header">
+    <div class="header__inner">
+        <div class="header__logo">
+            <a href="&#x2F;">
+    <div class="logo">
+        ocfox&#x27;s tree hole
+    </div>
+</a>
+        </div>
+        <div class="menu-trigger">menu</div>
+    </div>
+    
+    <nav class="menu">
+        <ul class="menu__inner menu__inner--desktop">
+            
+            
+                    <li>
+                        <a href="
+    
+        https://ocfox.me/about
+    
+">about</a>
+                    </li>
+                
+                    <li>
+                        <a href="
+    
+        https://ocfox.me/contact
+    
+">contact</a>
+                    </li>
+                
+                    <li>
+                        <a href="
+    
+        https://ocfox.me/logs
+    
+">logs</a>
+                    </li>
+                
+            </ul>
+
+        <ul class="menu__inner menu__inner--mobile">
+            
+        <li>
+            <a href="
+    
+        https://ocfox.me/about
+    
+">about</a>
+        </li>
+        <li>
+            <a href="
+    
+        https://ocfox.me/contact
+    
+">contact</a>
+        </li>
+        <li>
+            <a href="
+    
+        https://ocfox.me/logs
+    
+">logs</a>
+        </li>
+        </ul>
+    </nav>
+
+    </header>
+<div class="content"><article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https:&#x2F;&#x2F;ocfox.me&#x2F;post&#x2F;dual-boot-bluetooth&#x2F;">Bluetooth Pairing on Dual Boot</a>
+            </h1>
+            
+    <div class="post-meta">
+        <span class="post-date">2022.11.23
+                </span>
+
+        <span class="post-author"></span>
+
+        
+
+    
+    </div>
+
+            
+    
+</header><h2 id="dual-boot-bluetooth">Dual Boot Bluetooth<a class="zola-anchor" href="#dual-boot-bluetooth" aria-label="Anchor link for: dual-boot-bluetooth">§</a>
+</h2>
+<p>When pair your device, Bluetooth service generates a unique set of pairing keys.
+So twice pair will generate two differen keys.
+Simplely synchronizing two pairing keys can solve it.</p>
+<h2 id="sync-pairing-keys">Sync pairing keys<a class="zola-anchor" href="#sync-pairing-keys" aria-label="Anchor link for: sync-pairing-keys">§</a>
+</h2>
+<ul>
+<li>Pair device once on Windows and Linux.</li>
+<li>Mount Windows system partition on Linux.</li>
+<li>Use <a href="http://pogostick.net/%7Epnh/ntpasswd/">chntpw</a> to change the pairing key in Windows.</li>
+</ul>
+<p>Get the pairing key</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">cat</span><span> /var/lib/bluetooth/&lt;current_computer_bluetooth_mac&gt;/&lt;device_mac&gt;/info 
+</span><span>
+</span><span style="color:#bf616a;">...
+</span><span style="color:#bf616a;">[LinkKey]
+</span><span style="color:#bf616a;">key</span><span>=</span><span style="color:#a3be8c;">YOURDEVICEPAIRINGKEY
+</span><span style="color:#bf616a;">...
+</span></code></pre>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">chntpw -e</span><span> WIN_PATH/Windows/System32/config/SYSTEM
+</span><span>
+</span><span>&gt; l
+</span><span style="color:#bf616a;">Node</span><span> has 17 subkeys and 0 values
+</span><span>  </span><span style="color:#bf616a;">key</span><span> name
+</span><span>  &lt;ActivationBroker&gt;
+</span><span>  &lt;ControlSet001&gt;
+</span><span>  &lt;DriverDatabase&gt;
+</span><span>  &lt;HardwareConfig&gt;
+</span><span>  &lt;Input&gt;
+</span><span style="color:#bf616a;">...
+</span></code></pre>
+<p>Replace ControlSetXXX with the value of your system.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#96b5b4;">cd</span><span> ControlSet001</span><span style="color:#96b5b4;">\S</span><span>ervices</span><span style="color:#96b5b4;">\B</span><span>THPORT</span><span style="color:#96b5b4;">\P</span><span>arameters</span><span style="color:#96b5b4;">\K</span><span>eys
+</span></code></pre>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span>(</span><span style="color:#bf616a;">...</span><span>)</span><span style="color:#96b5b4;">\S</span><span>ervices</span><span style="color:#96b5b4;">\B</span><span>THPORT</span><span style="color:#96b5b4;">\P</span><span>arameters</span><span style="color:#96b5b4;">\K</span><span>eys&gt; l 
+</span><span style="color:#bf616a;">Node</span><span> has 2 subkeys and 0 values
+</span><span>  </span><span style="color:#bf616a;">key</span><span> name
+</span><span>  &lt;</span><span style="color:#d08770;">144</span><span style="color:#bf616a;">f8a...</span><span>&gt;
+</span><span>  &lt;</span><span style="color:#d08770;">35</span><span style="color:#bf616a;">d48b...</span><span>&gt;
+</span></code></pre>
+<p>Edit Windows pairing key</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span>&gt; cd &lt;computer_bluetooth_mac&gt;
+</span><span>&gt; l
+</span><span>(</span><span style="color:#bf616a;">...</span><span>)</span><span style="color:#96b5b4;">\B</span><span>THPORT</span><span style="color:#96b5b4;">\P</span><span>arameters</span><span style="color:#96b5b4;">\K</span><span>eys</span><span style="color:#96b5b4;">\&lt;</span><span>computer_bluetooth_mac&gt; &gt; l
+</span><span style="color:#bf616a;">Node</span><span> has 0 subkeys and 1 values
+</span><span>  </span><span style="color:#bf616a;">size</span><span>     type              value name             </span><span style="color:#b48ead;">[</span><span>value if type DWORD</span><span style="color:#b48ead;">]
+</span><span>    </span><span style="color:#bf616a;">16</span><span>  3 REG_BINARY         &lt;</span><span style="color:#d08770;">25</span><span>f3e8ad4ce</span><span style="color:#d08770;">5</span><span>&gt;
+</span><span>    </span><span style="color:#bf616a;">16</span><span>  3 REG_BINARY         &lt;device_mac&gt;
+</span></code></pre>
+<p>Don't forget add space</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">ed </span><span>&lt;device_mac&gt;
+</span><span style="color:#bf616a;">.:</span><span> 0 YO UR DE VI CE PA IR IN GK EY
+</span><span style="color:#bf616a;">.s
+</span><span>&gt; q
+</span></code></pre>
+<p>Reboot, and now there is no need to pair again after each system switching.</p>
+
+
+        
+    
+
+        
+        
+    </article></div>
+    <div class="pagination">
+        <div class="pagination__buttons">
+            </div>
+    </div>
+<footer class="footer">
+                    <div class="footer__inner"><div class="copyright copyright--user">© ocfox</div>
+    <script type="text/javascript" src="https://ocfox.me/assets/js/main.js"></script>
+</div>
+                    
+
+                </footer></div>
+    </body>
+</html>
